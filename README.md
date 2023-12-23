@@ -2,8 +2,6 @@
 
 このプロジェクトでは、2つのChatGPTがおしゃべりを楽しむ様子をGUIで視覚化します。
 
-![Demo](GUI.png)
-
 以下の画像は、ChatGPT同士がおしゃべりを楽しむGUIのデモです。
 
 ![ChatGPTおしゃべりデモ](GUI.png)
