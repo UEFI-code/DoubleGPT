@@ -56,7 +56,7 @@ class theGPT3():
 
     def interactive(self, x, username = 'User'):
         x = x.replace('\n', ' ')
-        self.chatHistory += username + x + '. '
+        self.chatHistory += username + ': ' + x + '. '
         self.chatHistory = self.shrink(self.chatHistory, 0)
         x = self.makeContext2()
         #print(x)
@@ -87,7 +87,7 @@ class theGPT3():
     
     def just_add_chat_history(self, x, username = 'User'):
         x = x.replace('\n', ' ')
-        self.chatHistory += username + x + '. '
+        self.chatHistory += username + ': ' + x + '. '
 
 if __name__ == '__main__':
     import json
