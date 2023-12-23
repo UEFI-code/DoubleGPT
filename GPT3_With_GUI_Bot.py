@@ -15,7 +15,7 @@ jsonparam = json.load(open('gpt3token.key', 'r'))
 myGPT3_A = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Sakura')
 myGPT3_B = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Nagisa')
 
-def show_simliar_figure(description, txtoutput):
+def show_simliar_figure(description, txtoutput, name):
     allfigures = os.listdir('figs')
     maxsimliar = 0
     selectedfigure = None
@@ -31,9 +31,9 @@ def show_simliar_figure(description, txtoutput):
     img = cv2.imread('figs/' + selectedfigure)
     #txtPos = (int(img.shape[0] * 0.1), int(img.shape[1] * 0.8))
     #cv2.putText(img, txtoutput, txtPos, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (128, 128, 255), 2)
-    cv2.imshow('Bot', img)
+    cv2.imshow(name, img)
     # make sure the window is on top
-    cv2.setWindowProperty('Bot', cv2.WND_PROP_TOPMOST, 1)
+    cv2.setWindowProperty(name, cv2.WND_PROP_TOPMOST, 1)
     cv2.waitKey(1)
 
 kakasi_instance = kakasi()
@@ -60,7 +60,7 @@ def talk_with_gui(txtinput, username, theGPT):
     #print('Emotional: ' + Emotional)
     #print('Action: ' + Action)
     #print('Founding Figure: ' + FigFile)
-    show_simliar_figure(DesiredFigFile, TxtOutput)
+    show_simliar_figure(DesiredFigFile, TxtOutput, theGPT.name)
     #print('TxtOutput: ' + TxtOutput)
     print(theGPT.name + ': ' + TxtOutput)
     txtHiragana = kakasi_conv(TxtOutput)
