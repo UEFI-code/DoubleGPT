@@ -11,7 +11,7 @@ speech_config.speech_synthesis_voice_name = "ja-JP-MayuNeural"
 # use the default speaker as audio output.
 speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
-jsonparam = json.load(open('gpt3token.key', 'r'))
+jsonparam = json.load(open('gpt4token.key', 'r'))
 myGPT3_A = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Sakura')
 myGPT3_B = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Nagisa')
 
@@ -83,8 +83,8 @@ while True:
         continue
     break
 
-GPTA_Response = talk_with_gui(txtinput, 'Seitaku', myGPT3_A)
-myGPT3_B.just_add_chat_history(txtinput, 'Seitaku') # Let the GPT3_B know what the user said.
+GPTA_Response = talk_with_gui(txtinput, 'Nagisa', myGPT3_A)
+myGPT3_B.just_add_chat_history(txtinput, 'Nagisa') # Let the GPT3_B know what the user said.
 
 while True:
     GPTB_Response = talk_with_gui(GPTA_Response, myGPT3_A.name, myGPT3_B)
