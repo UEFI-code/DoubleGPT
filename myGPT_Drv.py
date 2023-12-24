@@ -61,7 +61,7 @@ class GPT4_Drv:
             "Content-Type": "application/json",
             "api-key": apiKey
         }
-        self.messages = [{"role":"system","content":"You are a smart robot girl."}]
+        self.messages = [{"role":"system","content":"You are a smart and kawaii girl."}]
         self.body = {
             "messages": None,
             "max_tokens": 2048,
@@ -94,5 +94,5 @@ if __name__ == '__main__':
     # print(chatgpt.forward('Hello World'))
     import json
     jsonparam = json.load(open('gpt3token.key', 'r'))
-    gpt4 = GPT3_Drv(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'])
-    print(gpt4.forward('Hello World'))
+    gpt = GPT3_Drv(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'])
+    print(gpt.forward('Hello World'))
