@@ -83,8 +83,8 @@ while True:
         continue
     break
 
-GPTA_Response = talk_with_gui(txtinput, 'Nagisa', myGPT3_A)
-myGPT3_B.just_add_chat_history(txtinput, 'Nagisa') # Let the GPT3_B know what the user said.
+GPTA_Response = talk_with_gui(txtinput, 'Seitaku', myGPT3_A)
+myGPT3_B.just_add_chat_history(txtinput, 'Seitaku') # Let the GPT3_B know what the user said.
 
 while True:
     GPTB_Response = talk_with_gui(GPTA_Response, myGPT3_A.name, myGPT3_B)
