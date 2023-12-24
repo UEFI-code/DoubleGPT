@@ -36,7 +36,6 @@ class theGPT3():
             x = ';'.join(x)
         return x
 
-
     def makeContext2(self):
         context2 = self.context2Introduction + '\n'
         context2 += 'ChatHistory: ' + self.chatHistory + '\n'
