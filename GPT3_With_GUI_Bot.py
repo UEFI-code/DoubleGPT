@@ -4,16 +4,8 @@ import cv2
 import azure.cognitiveservices.speech as speechsdk
 from pykakasi import kakasi
 import json
-
-speech_config = speechsdk.SpeechConfig(subscription=open('azspeech.key','r').readline(), region='japaneast')
-# Note: the voice setting will not overwrite the voice element in input SSML.
-speech_config.speech_synthesis_voice_name = "ja-JP-MayuNeural"
-# use the default speaker as audio output.
-speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
-
-jsonparam = json.load(open('gpt4token.key', 'r'))
-myGPT3_A = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Sakura')
-myGPT3_B = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Nagisa')
+import time
+import threading
 
 def show_simliar_figure(description, txtoutput, name):
     allfigures = os.listdir('figs')
@@ -76,6 +68,15 @@ def talk_with_gui(txtinput, username, theGPT):
             print("Error details: {}".format(cancellation_details.error_details))
     return TxtOutput
 
+speech_config = speechsdk.SpeechConfig(subscription=open('azspeech.key','r').readline(), region='japaneast')
+# Note: the voice setting will not overwrite the voice element in input SSML.
+speech_config.speech_synthesis_voice_name = "ja-JP-MayuNeural"
+# use the default speaker as audio output.
+speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+
+jsonparam = json.load(open('gpt3token.key', 'r'))
+myGPT3_A = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Sakura')
+myGPT3_B = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Nagisa')
 
 while True:
     txtinput = input('Type something: ')
@@ -86,6 +87,34 @@ while True:
 GPTA_Response = talk_with_gui(txtinput, 'Seitaku', myGPT3_A)
 myGPT3_B.just_add_chat_history(txtinput, 'Seitaku') # Let the GPT3_B know what the user said.
 
+mutex = threading.Lock()
+
+def human_word_inserter():
+    print('Human Word Inserter launched!')
+    while True:
+        txtinput = input('Type something: ')
+        if txtinput == '':
+            continue
+        if txtinput == 'l':
+            print('Locking...')
+            mutex.acquire()
+            print('Locked.')
+            continue
+        if txtinput == 'u':
+            mutex.release()
+            print('Unlocked.')
+            continue
+        myGPT3_A.just_add_chat_history(txtinput, 'Seitaku')
+        myGPT3_B.just_add_chat_history(txtinput, 'Seitaku')
+
+threading.Thread(target=human_word_inserter).start()
+
 while True:
+    time.sleep(5)
+    mutex.acquire()
     GPTB_Response = talk_with_gui(GPTA_Response, myGPT3_A.name, myGPT3_B)
+    mutex.release()
+    time.sleep(5)
+    mutex.acquire()
     GPTA_Response = talk_with_gui(GPTB_Response, myGPT3_B.name, myGPT3_A)
+    mutex.release()

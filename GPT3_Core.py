@@ -5,8 +5,8 @@ import time
 class theGPT3():
     def __init__(self, apiKey, endpoint = 'https://mygpt233.openai.azure.com/openai/deployments/myGPT3/completions?api-version=2022-12-01', name='CuteGPT'):
         self.maxTry = 3
-        #self.gptdrv = GPT3_Drv(apiKey=apiKey, endpoint=endpoint)
-        self.gptdrv = GPT4_Drv(apiKey=apiKey, endpoint=endpoint, maxTokens=8000)
+        self.gptdrv = GPT3_Drv(apiKey=apiKey, endpoint=endpoint)
+        #self.gptdrv = GPT4_Drv(apiKey=apiKey, endpoint=endpoint, maxTokens=8000)
         #self.gptdrv = chat_Drv(apiKey=apiKey)
         self.chatHistory = ''
         self.actionHistory = ''
