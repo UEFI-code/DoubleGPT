@@ -39,6 +39,7 @@ def kakasi_conv(txt):
     return txtHiragana
 
 def talk_with_gui(txtinput, username, theGPT):
+    mutex.acquire()
     txtHiragana = kakasi_conv(txtinput)
     #print('Input Hiragana: ' + txtHiragana)
     res = theGPT.interactive(txtHiragana, username)
@@ -66,6 +67,7 @@ def talk_with_gui(txtinput, username, theGPT):
         print("Speech synthesis canceled: {}".format(cancellation_details.reason))
         if cancellation_details.reason == speechsdk.CancellationReason.Error:
             print("Error details: {}".format(cancellation_details.error_details))
+    mutex.release()
     return TxtOutput
 
 speech_config = speechsdk.SpeechConfig(subscription=open('azspeech.key','r').readline(), region='japaneast')
@@ -79,13 +81,10 @@ myGPT3_A = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoi
 myGPT3_B = GPT3_Core.theGPT3(apiKey=jsonparam['key'], endpoint=jsonparam['endpoint'], name='Nagisa')
 
 while True:
-    txtinput = input('Type something: ')
-    if txtinput == '':
+    GPTA_Response = input('Type Inital Word for GPTA: ')
+    if GPTA_Response == '':
         continue
     break
-
-GPTA_Response = talk_with_gui(txtinput, 'Seitaku', myGPT3_A)
-myGPT3_B.just_add_chat_history(txtinput, 'Seitaku') # Let the GPT3_B know what the user said.
 
 mutex = threading.Lock()
 
@@ -111,10 +110,6 @@ threading.Thread(target=human_word_inserter).start()
 
 while True:
     time.sleep(5)
-    mutex.acquire()
     GPTB_Response = talk_with_gui(GPTA_Response, myGPT3_A.name, myGPT3_B)
-    mutex.release()
     time.sleep(5)
-    mutex.acquire()
     GPTA_Response = talk_with_gui(GPTB_Response, myGPT3_B.name, myGPT3_A)
-    mutex.release()
