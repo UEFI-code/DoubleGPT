@@ -89,19 +89,23 @@ while True:
 mutex = threading.Lock()
 
 def human_word_inserter():
+    lock_flag = 'Not Locked'
     print('Human Word Inserter launched!')
     while True:
-        txtinput = input('Type something: ')
+        #txtinput = input('Type something: ')
+        txtinput = input(f'[{lock_flag}] Type something: ')
         if txtinput == '':
             continue
-        if txtinput == 'l':
+        if txtinput == 'l' and lock_flag == 'Not Locked':
             print('Locking...')
             mutex.acquire()
+            lock_flag = 'Locked'
             print('Locked.')
             continue
-        if txtinput == 'u':
+        if txtinput == 'u' and lock_flag == 'Locked':
             mutex.release()
             print('Unlocked.')
+            lock_flag = 'Not Locked'
             continue
         myGPT3_A.just_add_chat_history(txtinput, 'Seitaku')
         myGPT3_B.just_add_chat_history(txtinput, 'Seitaku')
