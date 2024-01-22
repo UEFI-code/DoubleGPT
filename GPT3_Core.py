@@ -12,9 +12,6 @@ class theGPT3():
         self.actionHistory = ''
         self.emotionHistory = ''
         self.context2Introduction = f'Your name is {name}. This is a special context format. Follow this format strictly. Line 0 is this context struct introduction, do not change that; Line 1 is the chat history, do not change that; Line 2 is the emotion history, do not change that; Line 3 is the body action history, do not change that; Line 4 is your action, you can do anything; Line 5 is your text output, you can say anything. Please respond a full complete context strictly with this format.'
-        # self.MaxMemForChatHistory = 512
-        # self.MaxMemForActionHistory = 128
-        # self.MaxMemForEmotionHistory = 128
         self.MaxCountForChatHistory = 10
         self.MaxCountForActionHistory = 10
         self.MaxCountForEmotionHistory = 10
@@ -67,7 +64,7 @@ class theGPT3():
                 Emotional = res[0].split(': ')[1]
                 Action = res[1].split(': ')[1]
                 TxtOutput = '\n'.join(res[2:])
-                TxtOutput = TxtOutput.split(': ')[1]
+                TxtOutput = ''.join(TxtOutput.split(': ')[1:])
                 self.emotionHistory += Emotional + ';'
                 self.shrink(self.emotionHistory, 2)
                 self.actionHistory += time.ctime().replace(' ', '_') + ' ' + Action + ';'
