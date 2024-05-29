@@ -1,0 +1,12 @@
+cff-version: 1.0.0
+message: If you use this software, please cite it as below.
+title: DoubleGPT
+authors:
+  - family-names: DoubleGPT Team
+url: https://github.com/UEFI-code/DoubleGPT
+preferred-citation:
+  type: opensource-software-toolkit
+  title: "DoubleGPT: An open-source project for demonstration how multiple LLMs interactive with human"
+  authors:
+    - family-names: Zhang
+      given-names: Shizhuo
